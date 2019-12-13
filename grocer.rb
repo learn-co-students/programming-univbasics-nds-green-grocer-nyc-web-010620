@@ -50,7 +50,7 @@ def apply_coupons(cart, coupons)
           :item => couponed_item_name,
           :price => coupons[counter][:cost] / coupons[counter][:num],
           :count => coupons[counter][:num],
-          :clearance => cart_item[:clearance],
+          :clearance => cart_item[:clearance]
         }
 
         cart << cart_item_with_coupon
@@ -64,9 +64,15 @@ def apply_coupons(cart, coupons)
 end
 
 def apply_clearance(cart)
-  # Consult README for inputs and outputs
-  #
-  # REMEMBER: This method **should** update cart
+  counter = 0
+  while counter < cart.length
+    if cart[counter][:clearance]
+      (cart[counter][:price] = cart[counter][:price] - (cart[counter][:price] * 0.2)).round(2)
+    end
+
+    counter += 1
+  end
+  cart
 end
 
 def checkout(cart, coupons)
