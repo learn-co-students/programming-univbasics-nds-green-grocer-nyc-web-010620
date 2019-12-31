@@ -45,12 +45,19 @@ def ef apply_coupons(cart, coupons)
         cart_item_name_with_coupon[:count] += coupons[i][:num]
         cart_item[:count] -= coupons[i][:num]
       else 
-      new_item = {
+      cart_item_name_with_coupon = {
         :item => item[:item] + " W/COUPON",
         :price => item[:cost] / item[:num],
         :clearance => true,
         :count => item[:num]
       }
+      cart << cart_item_name_with_coupon
+      cart_item[:count] -= coupons[i][:num]
+    end 
+  end 
+  i += 1 
+end 
+cart 
  
 end
 
