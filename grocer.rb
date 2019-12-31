@@ -33,7 +33,7 @@ end
 return new_cart 
 end
 
-def ef apply_coupons(cart, coupons)
+def apply_coupons(cart, coupons)
   i = 0 
   while i < coupons.length 
   cart_item = find_item_by_name_in_collection(coupons[i][:item], cart)
@@ -46,10 +46,11 @@ def ef apply_coupons(cart, coupons)
         cart_item[:count] -= coupons[i][:num]
       else 
       cart_item_name_with_coupon = {
-        :item => item[:item] + " W/COUPON",
-        :price => item[:cost] / item[:num],
-        :clearance => true,
-        :count => item[:num]
+        :item => couponed_item_name,
+        :price => coupons[i][:cost] / coupons[i][:num],
+        :count => coupons[i][:num],
+        :clearance => cart_item[:clearance]
+        
       }
       cart << cart_item_name_with_coupon
       cart_item[:count] -= coupons[i][:num]
