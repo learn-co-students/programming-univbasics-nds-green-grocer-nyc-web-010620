@@ -1,0 +1,75 @@
+index = 0
+non_uniq_items = []
+while index < cart.length do
+  items_and_desc = cart[index]
+  non_uniq_items << items_and_desc[:item]
+  index += 1
+end
+~~~~~
+index = 0
+consolidated_cart = []
+while index < cart.length
+  item_name = cart[index][:item]
+  consolidated_cart << find_item_by_name_in_collection(item_name, cart)
+  index += 1
+
+end
+~~~~~
+
+
+
+index = 0
+item_desc_count_ary = []
+
+while index < cart.length do
+    item_desc = cart[index]
+    item_count = 0
+
+    if find_item_by_name_in_collection(item_desc[:item], cart)
+      item_count += 1
+
+      item_desc_count = {
+        :item => item_desc[:item],
+        :price => item_desc[:price],
+        :clearance => item_desc[:clearance],
+        :count => item_count
+      }
+
+      item_desc_count_ary << item_desc_count
+    end
+    index += 1
+  end
+  print item_desc_count_ary
+
+  ~~~~~
+
+  def format_coupon(coupon)
+    price_sig_fig = (coupon[:cost] / coupon[:num]).round(2)
+    {
+      :item => "#{coupon[:item]} W/ COUPON",
+      :price => price_sig_fig,
+      :count => coupon[:num]
+    }
+  end
+
+  def format_coupon_cart(item, coupon, cart)
+    item[:count] -= coupon[:num]
+    formatted_coupon = format_coupon(coupon)
+    formatted_coupon[:clearance] = item[:clearance]
+
+    cart << formatted_coupon
+  end
+
+  index = 0
+  while index < coupons.length do
+    coupon = coupons[index]
+    item_has_coupon = find_item_by_name_in_collection(coupon[:item], cart)
+    item_in_cart = !!item_has_coupon
+    enough_items_coupon = item_in_cart && item_has_coupon[:count] >= coupon[:num]
+
+    if item_in_cart && enough_items_coupon
+      format_coupon_cart(item_has_coupon, coupon, cart)
+    end
+    index += 1
+  end
+  cart
