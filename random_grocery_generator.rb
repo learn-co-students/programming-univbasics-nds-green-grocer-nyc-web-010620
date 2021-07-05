@@ -12,7 +12,9 @@ def items
 		{"PEANUTBUTTER" => {:price => 3.00, :clearance => true}},
 		{"BEETS" => {:price => 2.50, :clearance => false}}
 	]
+items
 end
+
 
 def coupons
 	[
